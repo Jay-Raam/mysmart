@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delivery Address Form</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin: 10px 0;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        margin-top: 5px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      @media print {
+        button {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Delivery Address Form</h2>
+
+      <div class="form-group">
+        <label for="fromAddress">From Address:</label>
+        <textarea cols="30" rows="10" id="fromAddress" readonly>
+Innovation Orthodontic Technologies
+NO 53/3, Alpha Towers, Round Round,
+Dindigul - 624005.
+Mob.No : 62301 76230
+        </textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="toAddress">To Address:</label>
+        <textarea
+          cols="30"
+          rows="10"
+          id="toAddress"
+          placeholder="Enter recipient's address here..."
+        ></textarea>
+      </div>
+
+      <button onclick="printForm()">Print</button>
+    </div>
+
+    <script>
+      function printForm() {
+        // Get the values of the textareas
+        const fromAddress = document.getElementById("fromAddress").value.trim();
+        const toAddress = document.getElementById("toAddress").value.trim();
+
+        // Create a temporary div to hold the content we want to print
+        const printContent = document.createElement("div");
+
+        // Add the content and link to the styles
+        printContent.innerHTML = `
+        <style>
+            .print-container {
+                display: flex;
+                justify-content: center;
+                text-align: center;
+                font-family: Arial, sans-serif;
+                flex-direction: column;
+                padding: 20px;
+                line-height: 1.6;
+                width: 10cm;
+                overflow-wrap: break-word;
+                position: absolute;
+                top: 0;
+                right:0;
+                left: 0;
+                height: 15cm;
+            }
+            .print-container h3 {
+                color: #333;
+                font-size: 18px;
+                text-align: left;
+            }
+            .print-container p {
+                font-size: 16px;
+                color: #555;
+                word-wrap: break-word;
+                width: 100%;
+                word-break: break-word;
+                text-align: left;
+            }
+            .to-address {
+                text-wrap: normal;
+                width: 100%;
+            }
+        </style>
+        <div class="print-container">
+            <p>${fromAddress.replace(/\n/g, "<br>")}</p>
+            <div class="to-address">
+                <h3>To</h3>
+                <p>${toAddress.replace(/\n/g, "<br>")}</p>
+            </div>
+        </div>`;
+
+        // Hide everything on the page except for the print content
+        const container = document.querySelector(".container");
+        container.style.visibility = "hidden";
+
+        document.body.appendChild(printContent);
+
+        // Trigger the print dialog
+        window.print();
+
+        setTimeout(() => {
+          container.style.visibility = "visible";
+          document.body.removeChild(printContent);
+        }, 100);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Form Update</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #printContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        flex-direction: column;
+        width: 2.5in;
+        gap: 0.125px;
+      }
+
+      #printContainer div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 9px;
+        flex-direction: column;
+        margin-bottom: 0.125px;
+        height: 1.5in;
+      }
+
+      #printContainer div p {
+        margin: 0;
+        font-size: 15px;
+      }
+
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        #printContainer,
+        #printContainer * {
+          visibility: visible;
+        }
+        #printContainer {
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <form id="myForm">
+      <!-- Product Type -->
+      <label for="productType">Product Type:</label>
+      <select name="productType" id="productType">
+        <option value="">Select Product Type</option>
+        <option value="MSA">MSA</option>
+        <option value="MSA PRO">MSA PRO</option>
+        <option value="RETAINER">RETAINER</option>
+        <option value="ATTACHMENT PLACEMENT">ATTACHMENT PLACEMENT</option>
+        <option value="PASSIVE">PASSIVE</option>
+        <option value="REFINEMENT">REFINEMENT</option></select
+      ><br />
+
+      <!-- Patient Name -->
+      <label for="user_name">Patient Name:</label>
+      <input
+        type="text"
+        name="user_name"
+        id="user_name"
+        placeholder="Enter patient name"
+      /><br />
+
+      <!-- Address -->
+      <label for="address">Address:</label>
+      <textarea
+        name="address"
+        id="address"
+        cols="30"
+        rows="10"
+        placeholder="Enter Address"
+      ></textarea
+      ><br />
+
+      <!-- Arch Selection -->
+      <label for="arch">Arch:</label>
+      <select name="arch" id="arch">
+        <option value="">Select Arch</option>
+        <option value="Upper">Upper</option>
+        <option value="Lower">Lower</option></select
+      ><br />
+
+      <!-- Total Steps -->
+      <label for="total_step">Total Steps:</label>
+      <input
+        type="number"
+        name="total_step"
+        id="total_step"
+        placeholder="Enter total steps"
+      /><br />
+
+      <!-- From Number -->
+      <label for="from_number">From Number:</label>
+      <input
+        type="number"
+        name="from_number"
+        id="from_number"
+        placeholder="Enter from number"
+      /><br />
+
+      <!-- End Number -->
+      <label for="end_number">End Number:</label>
+      <input
+        type="number"
+        name="end_number"
+        id="end_number"
+        placeholder="Enter end number"
+      /><br />
+
+      <!-- Duration -->
+      <label for="duration">Duration:</label>
+      <select name="duration" id="duration">
+        <option value="">Select Duration</option>
+        <option value="14 Days">14 Days</option>
+        <option value="7 Days">7 Days</option>
+        <option value="10 Days">10 Days</option>
+        <option value="3 Months">3 Months</option></select
+      ><br />
+
+      <button type="submit" class="btn">Print</button>
+    </form>
+
+    <!-- Error Messages -->
+    <div id="errorMessages" style="color: red"></div>
+
+    <!-- This div will hold the processed content for printing -->
+    <div id="printContainer" style="display: none"></div>
+
+    <script>
+      // Attach event listener to form submission
+      document
+        .getElementById("myForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          processForm();
+          console.log("Form is valid and numbers have been processed.");
+          // if (validateForm()) {
+          // }
+        });
+
+      // Function to validate the form
+      // function validateForm() {
+      //   let errorMessages = [];
+      //   let productType = document.getElementById("productType").value;
+      //   let userName = document.getElementById("user_name").value.trim();
+      //   let address = document.getElementById("address").value.trim();
+      //   let arch = document.getElementById("arch").value;
+      //   let totalStep = document.getElementById("total_step").value;
+      //   let fromNumber = document.getElementById("from_number").value;
+      //   let endNumber = document.getElementById("end_number").value;
+      //   let duration = document.getElementById("duration").value;
+
+      //   // Check if all fields are filled
+      //   if (!productType) errorMessages.push("Product Type is required.");
+      //   if (!userName) errorMessages.push("Patient Name is required.");
+      //   if (!address) errorMessages.push("Address is required.");
+      //   if (!arch) errorMessages.push("Arch is required.");
+      //   if (!totalStep) errorMessages.push("Total Steps is required.");
+      //   if (!fromNumber || isNaN(fromNumber))
+      //     errorMessages.push("From Number is required and must be a number.");
+      //   if (!endNumber || isNaN(endNumber))
+      //     errorMessages.push("End Number is required and must be a number.");
+      //   if (!duration) errorMessages.push("Duration is required.");
+
+      //   // Check if From Number is less than End Number
+      //   if (parseInt(fromNumber) > parseInt(endNumber)) {
+      //     errorMessages.push(
+      //       "From Number should be less than or equal to End Number."
+      //     );
+      //   }
+
+      //   // Display errors if any
+      //   if (errorMessages.length > 0) {
+      //     document.getElementById("errorMessages").innerHTML =
+      //       errorMessages.join("<br>");
+      //     return false;
+      //   }
+
+      //   return true; // No errors, form can be submitted
+      // }
+
+      // Function to process the form after validation
+
+      function processForm() {
+        let productType = document.getElementById("productType").value;
+        let userName = document.getElementById("user_name").value.trim();
+        let arch = document.getElementById("arch").value;
+        let fromNumber = document.getElementById("from_number").value;
+        let endNumber = document.getElementById("end_number").value;
+        let duration = document.getElementById("duration").value;
+        let total_step = document.getElementById("total_step").value;
+
+        fromNumber = parseInt(fromNumber);
+        endNumber = parseInt(endNumber);
+
+        if (isNaN(fromNumber) || isNaN(endNumber)) {
+          console.log("Invalid number range.");
+          return;
+        }
+
+        // Check if the numbers are within the valid range (0-99)
+        if (
+          fromNumber < 0 ||
+          fromNumber > 99 ||
+          endNumber < 0 ||
+          endNumber > 99
+        ) {
+          alert("Please enter numbers between 0 and 99.");
+          return;
+        }
+
+        let numbers = [];
+
+        for (let i = fromNumber; i <= endNumber; i++) {
+          console.log("Processing number:", i);
+
+          numbers.push({
+            Name: userName,
+            number: i,
+            duration: duration,
+            arch: arch,
+            productType: productType,
+            total_step: total_step,
+          });
+        }
+
+        let processedNumbers = numbers.map((item) => ({
+          Name: item.Name,
+          Number: item.number,
+          Duration: item.duration,
+          total_step: item.total_step,
+          Arch: item.arch,
+          productType: productType,
+        }));
+
+        let printContainer = document.getElementById("printContainer");
+        printContainer.innerHTML = "";
+
+        numbers.forEach((item) => {
+          let childDiv = document.createElement("div");
+          childDiv.innerHTML = `
+            <p>${productType}</p>
+            <p>${item.Name}</p>
+            <p>${item.Arch} - ${item.Number} / ${item.total_step}</p>
+            <p>Wear Time : ${item.Duration}</p>
+          `;
+          printContainer.appendChild(childDiv);
+        });
+
+        printContainer.style.display = "block";
+
+        window.print();
+
+        printContainer.style.display = "none";
+      }
+    </script>
+  </body>
+</html>
